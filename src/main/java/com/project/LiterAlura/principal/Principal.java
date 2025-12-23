@@ -13,6 +13,8 @@ public class Principal {
     private final ConsumoApi consumoApi;
     private final ConvierteDatos convierteDatos;
     private Scanner scanner = new Scanner(System.in);
+    private String urlBase = ("https://gutendex.com/books/?search=");
+
     public Principal(ConsumoApi consumoApi, ConvierteDatos convierteDatos) {
         this.consumoApi = consumoApi;
         this.convierteDatos = convierteDatos;
@@ -35,15 +37,22 @@ public class Principal {
             System.out.print("\nElija una opción: ");
             opción = scanner.nextInt();
             scanner.nextLine();
+
+            switch (opción) {
+                case 1 -> ConsultaLibro();
+            }
         }
     }
-    public void ejecutar() {
-        String json = consumoApi.obtenerDatos("https://gutendex.com/books/?search=pride");
 
+    private void ConsultaLibro() {
+        System.out.println("\nIngrese el nombre del libro\n");
+        System.out.print("Libro: ");
+        String titulo = scanner.nextLine();
+
+        String json = consumoApi.obtenerDatos(urlBase + titulo.replace(" ", "+"));
         GutendexDatos datos = convierteDatos.convertir(json, GutendexDatos.class);
-
         DatosLibro libro = datos.getResults().get(0);
-        System.out.println(libro.titulo());
+        System.out.println(libro);
     }
-
 }
+
