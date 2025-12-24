@@ -47,8 +47,17 @@ public class Principal {
                 case 1 -> consultaLibro();
                 case 2 -> listarLibros();
                 case 3 -> listarAutores();
+                case 5 -> librosPorIdioma();
             }
         }
+    }
+
+    private void librosPorIdioma() {
+        System.out.println("Escriba el idioma (por ejemplo: en, es): ");
+        String idioma = scanner.nextLine();
+        Long cantidad = libroRepository.countByIdioma(idioma);
+
+        System.out.println("Cantidad de libros en el idioma " + idioma + ": " + cantidad);
     }
 
     private void listarAutores() {
