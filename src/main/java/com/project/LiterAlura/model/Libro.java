@@ -9,20 +9,21 @@ public class Libro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "autor_id")
+    private Autor autor;
+
     private String titulo;
-    private String autor;
     private String idioma;
     private Double descargas;
 
     public Libro() {
     }
 
-    public Libro(Long id, String titulo, String autor, String idioma, Double descargas) {
-        this.id = id;
-        this.titulo = titulo;
-        this.autor = autor;
-        this.idioma = idioma;
-        this.descargas = descargas;
+    public Libro(DatosLibro datosLibro) {
+        this.titulo = datosLibro.titulo();
+        this.idioma = datosLibro.idioma().get(0);
+        this.descargas = datosLibro.descargas();
     }
 
     public Double getDescargas() {
@@ -41,19 +42,19 @@ public class Libro {
         this.idioma = idioma;
     }
 
-    public String getAutor() {
-        return autor;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
     public String getTitulo() {
         return titulo;
     }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public Autor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Autor autor) {
+        this.autor = autor;
     }
 }

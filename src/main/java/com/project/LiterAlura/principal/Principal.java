@@ -1,7 +1,8 @@
 package com.project.LiterAlura.principal;
 
-import com.project.LiterAlura.model.DatosLibro;
-import com.project.LiterAlura.model.GutendexDatos;
+import com.project.LiterAlura.model.*;
+import com.project.LiterAlura.repository.AutorRepository;
+import com.project.LiterAlura.repository.LibroRepository;
 import com.project.LiterAlura.service.ConsumoApi;
 import com.project.LiterAlura.service.ConvierteDatos;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,14 @@ public class Principal {
     private final ConvierteDatos convierteDatos;
     private Scanner scanner = new Scanner(System.in);
     private String urlBase = ("https://gutendex.com/books/?search=");
+    private final LibroRepository libroRepository;
+    private final AutorRepository autorRepository;
 
-    public Principal(ConsumoApi consumoApi, ConvierteDatos convierteDatos) {
+    public Principal(ConsumoApi consumoApi, ConvierteDatos convierteDatos, LibroRepository libroRepository, AutorRepository autorRepository) {
         this.consumoApi = consumoApi;
         this.convierteDatos = convierteDatos;
+        this.libroRepository = libroRepository;
+        this.autorRepository = autorRepository;
     }
 
     public void mostrarMenu() {
@@ -51,8 +56,18 @@ public class Principal {
 
         String json = consumoApi.obtenerDatos(urlBase + titulo.replace(" ", "+"));
         GutendexDatos datos = convierteDatos.convertir(json, GutendexDatos.class);
-        DatosLibro libro = datos.getResults().get(0);
-        System.out.println(libro);
+        DatosLibro datosLibro = datos.getResults().get(0);
+
+        DatosAutor datosAutor = datosLibro.autor().get(0);
+
+        Autor autor = autorRepository.findByNombre(datosAutor.nombre()).orElseGet(() -> autorRepository.save(new Autor(datosAutor)));
+
+        Libro libro = new Libro(datosLibro);
+        libro.setAutor(autor);
+        libroRepository.save(libro);
+
+        System.out.println("\nLibro guardado correctamente");
+
     }
 }
 
