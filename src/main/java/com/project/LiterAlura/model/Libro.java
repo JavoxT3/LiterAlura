@@ -15,7 +15,7 @@ public class Libro {
 
     private String titulo;
     private String idioma;
-    private Double descargas;
+    private Integer descargas;
 
     public Libro() {
     }
@@ -26,11 +26,11 @@ public class Libro {
         this.descargas = datosLibro.descargas();
     }
 
-    public Double getDescargas() {
+    public Integer getDescargas() {
         return descargas;
     }
 
-    public void setDescargas(Double descargas) {
+    public void setDescargas(Integer descargas) {
         this.descargas = descargas;
     }
 

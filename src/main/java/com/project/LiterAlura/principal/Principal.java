@@ -44,12 +44,34 @@ public class Principal {
             scanner.nextLine();
 
             switch (opción) {
-                case 1 -> ConsultaLibro();
+                case 1 -> consultaLibro();
+                case 2 -> listarLibros();
+                case 3 -> listarAutores();
             }
         }
     }
 
-    private void ConsultaLibro() {
+    private void listarAutores() {
+        autorRepository.findAll().forEach(a -> {
+            System.out.println("\nEscritor: " + a.getNombre());
+            System.out.println("Nacimiento: " + a.getFechaNacimiento());
+            System.out.println("Fallecimiento: " + a.getFechaFallecimiento());
+            System.out.println("---------------------------------------");
+        });
+    }
+
+    private void listarLibros() {
+        System.out.println("\nLista de libros buscados\n");
+        libroRepository.findAll().forEach(l -> {
+                System.out.println("\nLibro: " + l.getTitulo());
+                System.out.println("Autor: " + l.getAutor().getNombre());
+                System.out.println("Idioma: " + l.getIdioma());
+                System.out.println("Descargas: " + l.getIdioma());
+                System.out.println("---------------------------------------");
+        });
+    }
+
+    private void consultaLibro() {
         System.out.println("\nIngrese el nombre del libro\n");
         System.out.print("Libro: ");
         String titulo = scanner.nextLine();
@@ -65,6 +87,8 @@ public class Principal {
         Libro libro = new Libro(datosLibro);
         libro.setAutor(autor);
         libroRepository.save(libro);
+
+        System.out.println(datosLibro);
 
         System.out.println("\nLibro guardado correctamente");
 
