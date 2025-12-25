@@ -68,7 +68,10 @@ public class Principal {
     }
 
     private void listarAutoresVivosEnUnAño() {
+        System.out.println("\n---------------------------------------\n");
         System.out.println("Ingrese el año");
+        System.out.println("\n---------------------------------------\n");
+        System.out.print("Año: ");
         Integer anio = scanner.nextInt();
         scanner.nextLine();
 
@@ -93,9 +96,10 @@ public class Principal {
     }
 
     private void librosPorIdioma() {
-        System.out.println("\n---------------------------------------\n");
-        System.out.print("Escriba el idioma (por ejemplo: en, es): ");
-        System.out.println("\n---------------------------------------");
+        System.out.println("---------------------------------------\n");
+        System.out.print("Escriba el idioma (por ejemplo: en, es): \n\n");
+        System.out.println("---------------------------------------\n");
+        System.out.print("Idioma: " );
         String idioma = scanner.nextLine();
         Long cantidad = libroRepository.countByIdioma(idioma);
         System.out.println("\n---------------------------------------\n");
