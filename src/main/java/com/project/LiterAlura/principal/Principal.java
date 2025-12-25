@@ -27,9 +27,9 @@ public class Principal {
     }
 
     public void mostrarMenu() {
-        int opción = -1;
+        int opcion = -1;
 
-        while (opción != 0) {
+        while (opcion != 0) {
 
             System.out.println("\n---------------------------------------");
             System.out.println("""
@@ -44,15 +44,25 @@ public class Principal {
 
 
             System.out.print("Elija una opción: ");
-            opción = scanner.nextInt();
-            scanner.nextLine();
+            String input = scanner.nextLine();
 
-            switch (opción) {
+            if (!input.matches("\\d+")) {
+                System.out.println("\n---------------------------------------\n");
+
+                System.out.println("Ingrese solo números");
+                continue;
+            }
+
+            opcion = Integer.parseInt(input);
+
+            switch (opcion) {
                 case 1 -> consultaLibro();
                 case 2 -> listarLibros();
                 case 3 -> listarAutores();
                 case 4 -> listarAutoresVivosEnUnAño();
                 case 5 -> librosPorIdioma();
+                case 0 -> System.out.println("\n---------------------------------------\n\nSaliendo...\n\n---------------------------------------\n");
+                default -> System.out.println("\n---------------------------------------\n\nOpción no disponible");
             }
         }
     }
