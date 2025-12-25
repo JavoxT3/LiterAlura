@@ -113,6 +113,15 @@ Opción 5: Listar libros por idioma
 
 https://github.com/user-attachments/assets/fc6f193e-1895-4702-948b-6c960a62218c
 
+## 👨‍💻 Autor
+
+- Jhonatan Montiel
+
+# 📬 Contáctame
+
+LinkedIn: https://www.linkedin.com/in/jhonatan-montiel/
+
+
 
 
 
