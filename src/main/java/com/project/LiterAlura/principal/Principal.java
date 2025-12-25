@@ -7,6 +7,7 @@ import com.project.LiterAlura.service.ConsumoApi;
 import com.project.LiterAlura.service.ConvierteDatos;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -30,16 +31,19 @@ public class Principal {
 
         while (opción != 0) {
 
+            System.out.println("\n---------------------------------------");
             System.out.println("""
-                \n1- buscar libro por titulo
+                \n1- Buscar libro por titulo
                 2- Listar libros registrados
                 3- listar autores registrados
                 4- Listar autores vivos en un determinado año
                 5- Listar libros por idioma
                 0 - salir
                 """);
+            System.out.println("---------------------------------------\n");
 
-            System.out.print("\nElija una opción: ");
+
+            System.out.print("Elija una opción: ");
             opción = scanner.nextInt();
             scanner.nextLine();
 
@@ -47,41 +51,78 @@ public class Principal {
                 case 1 -> consultaLibro();
                 case 2 -> listarLibros();
                 case 3 -> listarAutores();
+                case 4 -> listarAutoresVivosEnUnAño();
                 case 5 -> librosPorIdioma();
             }
         }
     }
 
+    private void listarAutoresVivosEnUnAño() {
+        System.out.println("Ingrese el año");
+        Integer anio = scanner.nextInt();
+        scanner.nextLine();
+
+        List<Autor> fallecidosDespues = autorRepository.findByFechaNacimientoLessThanEqualAndFechaFallecimientoGreaterThan(anio, anio);
+
+        List<Autor> vivos = autorRepository.findByFechaNacimientoLessThanEqualAndFechaFallecimientoIsNull(anio);
+
+        fallecidosDespues.addAll(vivos);
+
+        if (fallecidosDespues.isEmpty()) {
+            System.out.println("\n---------------------------------------\n");
+            System.out.println("No se encontraron autores en ese año");
+            System.out.println("\n---------------------------------------");
+        } else {
+            fallecidosDespues.forEach(a -> {
+                System.out.println("\nAutor: " + a.getNombre());
+                System.out.println("Nacimiento: " + a.getFechaNacimiento());
+                System.out.println("Fallecimiento: " + a.getFechaFallecimiento());
+                System.out.println("\n---------------------------------------");
+            });
+        }
+    }
+
     private void librosPorIdioma() {
-        System.out.println("Escriba el idioma (por ejemplo: en, es): ");
+        System.out.println("\n---------------------------------------\n");
+        System.out.print("Escriba el idioma (por ejemplo: en, es): ");
+        System.out.println("\n---------------------------------------");
         String idioma = scanner.nextLine();
         Long cantidad = libroRepository.countByIdioma(idioma);
-
+        System.out.println("\n---------------------------------------\n");
         System.out.println("Cantidad de libros en el idioma " + idioma + ": " + cantidad);
+        System.out.println("\n---------------------------------------");
+
     }
 
     private void listarAutores() {
+        System.out.println("\n---------------------------------------\n");
+        System.out.println("Lista de autores registrados");
+        System.out.println("\n---------------------------------------\n");
         autorRepository.findAll().forEach(a -> {
-            System.out.println("\nEscritor: " + a.getNombre());
+            System.out.println("Escritor: " + a.getNombre());
             System.out.println("Nacimiento: " + a.getFechaNacimiento());
             System.out.println("Fallecimiento: " + a.getFechaFallecimiento());
-            System.out.println("---------------------------------------");
+            System.out.println("\n---------------------------------------\n");
         });
     }
 
     private void listarLibros() {
+        System.out.println("\n---------------------------------------");
         System.out.println("\nLista de libros buscados\n");
+        System.out.println("---------------------------------------\n");
         libroRepository.findAll().forEach(l -> {
                 System.out.println("\nLibro: " + l.getTitulo());
                 System.out.println("Autor: " + l.getAutor().getNombre());
                 System.out.println("Idioma: " + l.getIdioma());
-                System.out.println("Descargas: " + l.getIdioma());
-                System.out.println("---------------------------------------");
+                System.out.println("Descargas: " + l.getDescargas());
+                System.out.println("\n---------------------------------------");
         });
     }
 
     private void consultaLibro() {
+        System.out.println("\n---------------------------------------");
         System.out.println("\nIngrese el nombre del libro\n");
+        System.out.println("---------------------------------------\n");
         System.out.print("Libro: ");
         String titulo = scanner.nextLine();
 
@@ -99,6 +140,7 @@ public class Principal {
 
         System.out.println(datosLibro);
 
+        System.out.println("\n---------------------------------------");
         System.out.println("\nLibro guardado correctamente");
 
     }

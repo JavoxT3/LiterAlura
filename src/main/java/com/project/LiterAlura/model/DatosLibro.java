@@ -16,8 +16,8 @@ public record DatosLibro(
     public String toString() {
         return
                 "Titulo: " + titulo +
-                " - Autor: " + autor +
-                " - Idioma: " + idioma +
-                " - Descargas: " + descargas;
+                "\nAutor: " + autor +
+                "\nIdioma: " + idioma +
+                "\nDescargas: " + descargas;
     }
 }
